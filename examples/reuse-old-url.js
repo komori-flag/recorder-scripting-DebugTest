@@ -262,7 +262,7 @@ const dev_class = class {
         // 1.键名键值数量
         if (Object.keys(userConfig_Untreated).length !== 5) {
             throw new TypeError(`传入的用户参数有误[传入的对象名需要5个，却传入了${Object.keys(userConfig_Untreated).length}个]`)
-        } 
+        }
 
         if (Object.values(userConfig_Untreated).length !== 5) {
             throw new TypeError(`传入的用户参数有误[传入的对象值需要5个，却传入了${Object.values(userConfig_Untreated).length}个]`)
@@ -286,12 +286,11 @@ const dev_class = class {
             }
         });
 
-        // 3.键值
+        // 3.键值类型
         (() => {
-            let i = 0;
-            let userConfValCheckArr = ["boolean", "boolean", "boolean", "string", "string"];
+            const userConfValCheckArr = ["boolean", "boolean", "boolean", "string", "string"];
+            let i = num = 0;
             Object.values(newObject).map(x => {
-                //console.log(typeof x + "，" + userConfValCheckArr[i]);
                 if (userConfValCheckArr[i] !== (typeof x)) {
                     i++;
                     return true;
@@ -303,6 +302,7 @@ const dev_class = class {
                 if (x) {
                     throw new TypeError(``);
                 }
+                num++;
             })
         })();
 
