@@ -260,8 +260,12 @@ const dev_class = class {
 
         // 对用户传入的配置进行键值检查
         // 1.键名键值数量
-        if (Object.keys(userConfig_Untreated).length !== 5 && Object.values(userConfig_Untreated).length !== 5) {
-            
+        if (Object.keys(userConfig_Untreated).length !== 5) {
+            throw new TypeError(`传入的用户参数有误[传入的对象名需要5个，却传入了${Object.keys(userConfig_Untreated).length}个]`)
+        } 
+
+        if (Object.values(userConfig_Untreated).length !== 5) {
+            throw new TypeError(`传入的用户参数有误[传入的对象值需要5个，却传入了${Object.values(userConfig_Untreated).length}个]`)
         }
 
         // 2.键名
