@@ -5,7 +5,7 @@ const debugInfoShow = false; // true：开启，false：关闭
 // 旧直播流地址复用开关
 const oldUrlSwitch = false; // true：开启，false：关闭
 // 传入直播间可录画质检测，如果关闭，则锁定为“原画”画质进行录制
-const optionalQnCheckSwitch = true; // true：开启，false：关闭
+const optionalQnCheckSwitch = false; // true：开启，false：关闭
 // 获取直播流地址的API
 const FETCH_DOMAIN = "https://api.live.bilibili.com"; // "http(s)://域名(:端口号)"
 // 用户登录信息 Cookie（提示：请勿向不信任的反代端点传入 Cookie！）
