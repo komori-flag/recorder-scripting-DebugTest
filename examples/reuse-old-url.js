@@ -9,7 +9,7 @@ const optionalQnCheckSwitch = false; // true：开启，false：关闭
 // 获取直播流地址的API
 const FETCH_DOMAIN = "https://api.live.bilibili.com"; // "http(s)://域名(:端口号)"
 // 用户登录信息 Cookie（提示：请勿向不信任的反代端点传入 Cookie！）
-const UserCookie = '';
+const userCookie = '';
 
 
 /* 源码部分 ============================= */
@@ -42,8 +42,8 @@ recorderEvents = {
                     'type': 'string'
                 },
                 {
-                    'keys': 'UserCookie',
-                    'variable': typeof UserCookie !== 'undefined' ? UserCookie : undefined,
+                    'keys': 'userCookie',
+                    'variable': typeof userCookie !== 'undefined' ? userCookie : undefined,
                     'type': 'string'
                 }
             ];
@@ -173,7 +173,7 @@ const Fetch = (roomid, qn) => fetchSync(`${FETCH_DOMAIN}/room/v1/Room/playUrl?ci
         'Origin': 'https://live.bilibili.com',
         'Referer': 'https://live.bilibili.com/',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
-        'Cookie': UserCookie ? UserCookie : ''
+        'Cookie': userCookie ? userCookie : ''
     },
 })
 
