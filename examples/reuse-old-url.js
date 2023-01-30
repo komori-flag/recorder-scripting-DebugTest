@@ -243,7 +243,7 @@ const oldUrl = (roomid, qn, playUrl) => {
             console.log("当前获取的直播流地址为真原画，已保存等待复用");
         }
 
-        sharedStorage.setItem('playurl:room:' + roomid, playUrl); // {"playurl:room:roomid": "url"}
+        sharedStorage.setItem('playurl:room:' + roomid, playUrl); // {"playurl:room:23058": "url"}
     } else {
         if (debugInfoShow) {
             console.warn("提示：当前获取的直播流地址为二压原画（地址中带有“_bluray”字样）或非原画画质（qn不是10000），故不对此次获取的直播流地址进行保存操作");
