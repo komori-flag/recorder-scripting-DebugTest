@@ -23,36 +23,30 @@ recorderEvents = {
             let userConfCheck = [
                 {
                     'keys': 'debugInfoShow',
-                    'variable': typeof debugInfoShow !== 'undefined' ? debugInfoShow : undefined,
                     'type': 'boolean'
                 },
                 {
                     'keys': 'oldUrlSwitch',
-                    'variable': typeof oldUrlSwitch !== 'undefined' ? oldUrlSwitch : undefined,
                     'type': 'boolean'
                 },
                 {
                     'keys': 'optionalQnCheckSwitch',
-                    'variable': typeof optionalQnCheckSwitch !== 'undefined' ? optionalQnCheckSwitch : undefined,
                     'type': 'boolean'
                 },
                 {
                     'keys': 'FETCH_DOMAIN',
-                    'variable': typeof FETCH_DOMAIN !== 'undefined' ? FETCH_DOMAIN : undefined,
                     'type': 'string'
                 },
                 {
                     'keys': 'userCookie',
-                    'variable': typeof userCookie !== 'undefined' ? userCookie : undefined,
                     'type': 'string'
                 }
             ];
 
-            message = '';
             message += '正在检测...\n============用户配置部分============\n';
             userConfCheck.forEach(x => {
                 message += x.keys + '：';
-                if (typeof x.variable === x.type) {
+                if (typeof eval(`typeof ${x.keys} !== String(undefined) ? ${x.keys} : undefined`) === x.type) {
                     message += 'OK\n';
                 } else {
                     message += `Error[没有配置 ${x.keys} 变量或者变量类型不是为 ${x.type}]\n`;
