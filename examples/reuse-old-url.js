@@ -14,45 +14,51 @@ const userCookie = '';
 
 /* 源码部分 ============================= */
 
+/* 
+    本脚本源码基于 Genteure 的录播姬脚本项目（recorder-scripting-template）所开发，遵循 GNU General Public License v3.0 协议
+    原地址：https://github.com/BililiveRecorder/recorder-scripting-template
+    by：Komori_晓椮
+*/
+
 recorderEvents = {
     onTest(alert) {
         let message = '此条为测试消息​(〜￣△￣)〜';
 
         // 1.验证用户配置信息是否存在问题
-        (() => {
-            let userConfCheck = [
-                {
-                    'keys': 'debugInfoShow',
-                    'type': 'boolean'
-                },
-                {
-                    'keys': 'oldUrlSwitch',
-                    'type': 'boolean'
-                },
-                {
-                    'keys': 'optionalQnCheckSwitch',
-                    'type': 'boolean'
-                },
-                {
-                    'keys': 'FETCH_DOMAIN',
-                    'type': 'string'
-                },
-                {
-                    'keys': 'userCookie',
-                    'type': 'string'
-                }
-            ];
+        let userConfCheck = [
+            {
+                'keys': 'debugInfoShow',
+                'type': 'boolean'
+            },
+            {
+                'keys': 'oldUrlSwitch',
+                'type': 'boolean'
+            },
+            {
+                'keys': 'optionalQnCheckSwitch',
+                'type': 'boolean'
+            },
+            {
+                'keys': 'FETCH_DOMAIN',
+                'type': 'string'
+            },
+            {
+                'keys': 'userCookie',
+                'type': 'string'
+            }
+        ];
 
-            message += '正在检测...\n============用户配置部分============\n';
-            userConfCheck.forEach(x => {
-                message += x.keys + '：';
-                if (typeof eval(`typeof ${x.keys} !== String(undefined) ? ${x.keys} : undefined`) === x.type) {
-                    message += 'OK\n';
-                } else {
-                    message += `Error[没有配置 ${x.keys} 变量或者变量类型不是为 ${x.type}]\n`;
-                }
-            })
-        })()
+        message = '正在检测...\n============用户配置部分============\n';
+        userConfCheck.forEach(x => {
+            message += x.keys + '：';
+            if (typeof eval(`typeof ${x.keys} !== String(undefined) ? ${x.keys} : undefined`) === x.type) {
+                message += 'OK\n';
+            } else {
+                message += `Error[没有配置 ${x.keys} 变量或者变量类型不是为 ${x.type}]\n`;
+            }
+        })
+
+        // 2.验证各个模块是否正常工作
 
         if (typeof sharedStorage !== 'undefined') {
         }
@@ -107,7 +113,7 @@ recorderEvents = {
         // 检测当前运行的录播姬的执行脚本内部是否存在 sharedStorage 方法，如果没有就使用获取的直播流地址
         if (oldUrlSwitch) {
             if (typeof sharedStorage !== 'undefined') {
-                return oldUrl(roomid, qnArr[0], playUrl_Processed);
+                return oldUrl(roomid, qnArr, playUrl_Processed);
             } else {
                 if (debugInfoShow) {
                     console.warn("提示：此录播姬的执行脚本内部不存在 sharedStorage 方法，因此无法进行旧直播流地址复用操作，将使用获取到的直播流地址");
@@ -191,12 +197,14 @@ const optionalQnCheck = function (qnArr_Untreated, playUrl_Untreated) {
 }
 
 // 复用没有过期的真原画直播流地址
-const oldUrl = (roomid, qn, playUrl) => {
+const oldUrl = (roomid, qnArr, playUrl) => {
     const oldUrl = sharedStorage.getItem('playurl:room:' + roomid),
-        timeStamp = Date.now();
+        timeStamp = Date.now(),
+        qn = qnArr[0];
 
     if (debugInfoShow) {
-        console.log(`当前获取的房间ID：${roomid}，选定录制的画质：${qn}(${qnConvert(qn)})，旧的直播流地址：${oldUrl ? oldUrl : "无"}`);
+        console.log(`选定录制画质：${qnArr}，最终选定录制画质：${qnArr[0]}`);
+        console.log(`当前获取的房间ID：${roomid}，选定录制的画质：${qn}(${qnConvert(qn)})，\n旧的直播流地址：${oldUrl ? oldUrl : "无"}`);
 
         if (qn !== 10000) {
             console.warn("提示：当前获取的画质是非原画（qn不等于10000），故不对此次直播流地址进行复用操作和保存");
