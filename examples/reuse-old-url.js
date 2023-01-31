@@ -25,7 +25,7 @@ recorderEvents = {
         let message = '此条为测试消息​(〜￣△￣)〜';
 
         // 1.验证用户配置信息是否存在问题
-        let userConfCheck = [
+        let userConfCheckArr = [
             {
                 'keys': 'debugInfoShow',
                 'type': 'boolean'
@@ -49,7 +49,7 @@ recorderEvents = {
         ];
 
         message = '正在检测...\n============用户配置部分============\n';
-        userConfCheck.forEach(x => {
+        userConfCheckArr.forEach(x => {
             message += x.keys + '：';
             if (typeof eval(`typeof ${x.keys} !== String(undefined) ? ${x.keys} : undefined`) === x.type) {
                 message += 'OK\n';
