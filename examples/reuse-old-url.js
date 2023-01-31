@@ -24,7 +24,7 @@ recorderEvents = {
     onTest(alert) {
         let message = '此条为测试消息​(〜￣△￣)〜';
 
-        // 1.验证用户配置信息是否存在问题
+        // 验证用户配置信息是否存在问题
         let userConfCheckArr = [
             {
                 'keys': 'debugInfoShow',
@@ -51,14 +51,12 @@ recorderEvents = {
         message = '正在检测...\n============用户配置部分============\n';
         userConfCheckArr.forEach(x => {
             message += x.keys + '：';
-            if (typeof eval(`typeof ${x.keys} !== String(undefined) ? ${x.keys} : undefined`) === x.type) {
+            if (eval(`typeof ${x.keys} === x.type`)) {
                 message += 'OK\n';
             } else {
                 message += `Error[没有配置 ${x.keys} 变量或者变量类型不是为 ${x.type}]\n`;
             }
         })
-
-        // 2.验证各个模块是否正常工作
 
         if (typeof sharedStorage !== 'undefined') {
         }
