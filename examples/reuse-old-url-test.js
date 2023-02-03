@@ -1,3 +1,7 @@
+/*
+    勇士，你来错地方了，这里不是你该来的地方​("▔□▔)/
+*/
+
 const userConfig = {
     // debug 信息显示开关（boolean）
     // 配置方法：true：开启，false：关闭
