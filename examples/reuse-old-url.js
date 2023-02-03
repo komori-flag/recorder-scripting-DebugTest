@@ -59,6 +59,10 @@ recorderEvents = {
         })
 
         if (typeof sharedStorage !== 'undefined') {
+            message += `\n
+                ==========录播姬暂存数据部分==========\n
+                录播姬暂存了${sharedStorage.length}个房间的真原画直播流地址\n
+                ${sharedStorage.key(0)}`;
         }
 
         alert(message);
@@ -152,7 +156,7 @@ const qnConvert = qn => {
 }
 
 // 时间戳转换
-const timeStampConvert = timeStamp => {
+const timeStampConvert = (timeStamp) => {
     const date = new Date(timeStamp),
         Y = date.getFullYear() + '-',
         M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-',
@@ -172,7 +176,7 @@ const Fetch = (roomid, qn) => fetchSync(`${FETCH_DOMAIN}/room/v1/Room/playUrl?ci
         'Referer': 'https://live.bilibili.com/',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
         'Cookie': userCookie ? userCookie : ''
-    },
+    }
 })
 
 // 直播间可选画质检测
@@ -243,7 +247,14 @@ const oldUrl = (roomid, qnArr, playUrl) => {
             console.log("当前获取的直播流地址为真原画，已保存等待复用");
         }
 
-        sharedStorage.setItem('playurl:room:' + roomid, playUrl); // {"playurl:room:23058": "url"}
+        /*
+            [
+                {"playurl:room:23058": "url"},
+                {"playurl:room:23058": "url"}
+                ......
+            ] 
+        */
+        sharedStorage.setItem('playurl:room:' + roomid, playUrl);
     } else {
         if (debugInfoShow) {
             console.warn("提示：当前获取的直播流地址为二压原画（地址中带有“_bluray”字样）或非原画画质（qn不是10000），故不对此次获取的直播流地址进行保存操作");
