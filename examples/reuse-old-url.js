@@ -205,7 +205,7 @@ const oldUrl = (roomid, qnArr, playUrl) => {
         qn = qnArr[0];
 
     if (debugInfoShow) {
-        console.log(`选定录制画质：${qnArr}，最终选定录制画质：${qnArr[0]}`);
+        console.log(`选定录制画质：${qnArr.toString()}，最终选定录制画质：${qnArr[0]}`);
         console.log(`当前获取的房间ID：${roomid}，选定录制的画质：${qn}(${qnConvert(qn)})，\n旧的直播流地址：${oldUrl ? oldUrl : "无"}`);
 
         if (qn !== 10000) {

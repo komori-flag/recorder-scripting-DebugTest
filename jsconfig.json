@@ -4,9 +4,7 @@
         "module": "none",
         "target": "es2020",
         "lib": [
-            "ES2015",
-            "ES2016",
-            "ES2017"
+            "ES2015"
         ]
     },
     "exclude": [
