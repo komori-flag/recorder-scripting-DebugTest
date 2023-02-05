@@ -60,10 +60,7 @@ recorderEvents = {
         })
 
         if (typeof sharedStorage !== 'undefined') {
-            message += `\n
-                ==========录播姬暂存数据部分==========\n
-                录播姬暂存了${sharedStorage.length}个房间的真原画直播流地址\n
-                ${sharedStorage.key(0)}`;
+            message += `\n==========录播姬暂存数据部分==========\n录播姬暂存了${sharedStorage.length}个房间的真原画直播流地址}`;
         }
 
         alert(message);
