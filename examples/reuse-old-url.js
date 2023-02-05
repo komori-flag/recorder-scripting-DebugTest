@@ -11,6 +11,10 @@ const FETCH_DOMAIN = "https://api.live.bilibili.com"; // "http(s)://域名(:端�
 // 用户登录信息 Cookie（提示：请勿向不信任的反代端点传入 Cookie！）
 const userCookie = '';
 
+// 暂时无法实现
+// HTTP请求错误尝试次数，默认为“3”，调高了可能会导致录播姬不能及时录制
+// const HTTPErrorAttempts = 3;
+
 
 /* 源码部分 ============================= */
 
@@ -46,6 +50,11 @@ recorderEvents = {
                 'keys': 'userCookie',
                 'type': 'string'
             }
+            // 暂时无法实现
+            // {
+            //     'keys': 'HTTPErrorAttempts',
+            //     'type': 'number'
+            // }
         ];
 
         message = '正在检测...\n============用户配置部分============\n';
@@ -73,12 +82,14 @@ recorderEvents = {
         let qnArr = data.qn.length > 0 ? data.qn : [10000];
         let playUrl = Fetch(roomid, 10000);
 
+        // @ts-ignore
         if (!playUrl.ok) return null;
 
         // 直播间可选画质检测
         if (optionalQnCheckSwitch) {
             cache = optionalQnCheck(qnArr, playUrl);
             if (cache) {
+                console.log(cache.length);
                 if (cache.length < 1) {
                     return 'http://0.0.0.0';
                 }
@@ -88,6 +99,7 @@ recorderEvents = {
                 // @ts-ignore
                 if (cache.forEach(x => x !== 10000 ? true : false)) {
                     playUrl = Fetch(roomid, cache[0]);
+                    // @ts-ignore
                     if (!playUrl.ok) return null;
                 }
             } else {
@@ -97,6 +109,7 @@ recorderEvents = {
 
 
         /** @type {any[]?} */
+        // @ts-ignore
         const urls = JSON.parse(playUrl.body)?.data.durl?.map(x => x.url);
 
         if (!(urls?.length)) return null;
@@ -169,22 +182,48 @@ const timeStampConvert = (timeStamp) => {
 }
 
 // 封装好的请求方法
-const Fetch = (roomid, qn) => fetchSync(`${FETCH_DOMAIN}/room/v1/Room/playUrl?cid=${roomid}&qn=${qn}&platform=web`, {
-    method: 'GET',
-    headers: {
-        'Origin': 'https://live.bilibili.com',
-        'Referer': 'https://live.bilibili.com/',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
-        'Cookie': userCookie ? userCookie : ''
-    }
-})
+const Fetch = (roomid, qn) => {
+    return fetchSync(`${FETCH_DOMAIN}/room/v1/Room/playUrl?cid=${roomid}&qn=${qn}&platform=web`, {
+        method: 'GET',
+        headers: {
+            'Origin': 'https://live.bilibili.com',
+            'Referer': 'https://live.bilibili.com/',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
+            'Cookie': userCookie ? userCookie : ''
+        }
+    })
+
+    // 暂时无法实现
+    // for (let i = 0; i < HTTPErrorAttempts; i++) {
+    //     try {
+    //         return fetchSync(`${FETCH_DOMAIN}/room/v1/Room/playUrl?cid=${roomid}&qn=${qn}&platform=web`, {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Origin': 'https://live.bilibili.com',
+    //                 'Referer': 'https://live.bilibili.com/',
+    //                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
+    //                 'Cookie': userCookie ? userCookie : ''
+    //             }
+    //         })
+    //     }
+    //     catch (err) {
+    //         console.error(`HTTP请求错误，将尝试重新拉起请求（${i}/${HTTPErrorAttempts}），\n错误原因：${err}`);
+    //     }
+
+    //     if (i === HTTPErrorAttempts) {
+    //         throw new Error("执行HTTP请求错误次数超过阈值，无法从设定的API当中拉取有效的数据，将直播流地址选择交给录播姬");
+    //     }
+
+    //     i++;
+    // }
+}
 
 // 直播间可选画质检测
 const optionalQnCheck = function (qnArr_Untreated, playUrl_Untreated) {
     let qnArr = [],
         getQnArr = JSON.parse(playUrl_Untreated.body)?.data.quality_description?.map(x => x.qn);
 
-    if (!(getQnArr?.length)) {
+    if (getQnArr?.length) {
         qnArr_Untreated.forEach(a => {
             getQnArr.forEach(b => {
                 if (a === b) {
@@ -193,8 +232,6 @@ const optionalQnCheck = function (qnArr_Untreated, playUrl_Untreated) {
             })
         })
     }
-
-    // 输出
     return qnArr;
 }
 
