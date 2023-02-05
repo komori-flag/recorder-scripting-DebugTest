@@ -1,6 +1,19 @@
 /*
-    勇士，你来错地方了，这里不是你该来的地方​("▔□▔)/
+    勇士，你来错地方了，这里不是你该来的地方，这里是代码的试验田("▔□▔)/
+    这里的东西在录播姬里暂时无法使用，使用会报错
 */
+
+/* 
+    本脚本源码基于 Genteure 的录播姬脚本项目（recorder-scripting-template）所开发，遵循 GNU General Public License v3.0 协议
+    原地址：https://github.com/BililiveRecorder/recorder-scripting-template
+    by：Komori_晓椮
+*/
+
+// 暂时无法实现
+// HTTP请求错误尝试次数，默认为“3”，调高了可能会导致录播姬不能及时录制
+// const HTTPErrorAttempts = 3;
+
+const UserCookie = '';
 
 const userConfig = {
     // debug 信息显示开关（boolean）
@@ -88,10 +101,10 @@ const dev_class = class {
             FETCH_DOMAIN = "https://api.live.bilibili.com",
             UserCookie = '';
 
-        return {
-            // urlFetch: this.urlFetch,
-            // oldUrlReuse: this.oldUrlReuse
-        };
+        // return {
+        //     // urlFetch: this.urlFetch,
+        //     // oldUrlReuse: this.oldUrlReuse
+        // };
     }
 
     // qn-->画质
@@ -146,6 +159,30 @@ const dev_class = class {
                 'Cookie': UserCookie ? UserCookie : ''
             },
         })
+
+        // 暂时无法实现
+        // for (let i = 0; i < HTTPErrorAttempts; i++) {
+        //     try {
+        //         return fetchSync(`${FETCH_DOMAIN}/room/v1/Room/playUrl?cid=${roomid}&qn=${qn}&platform=web`, {
+        //             method: 'GET',
+        //             headers: {
+        //                 'Origin': 'https://live.bilibili.com',
+        //                 'Referer': 'https://live.bilibili.com/',
+        //                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
+        //                 'Cookie': userCookie ? userCookie : ''
+        //             }
+        //         })
+        //     }
+        //     catch (err) {
+        //         console.error(`HTTP请求错误，将尝试重新拉起请求（${i}/${HTTPErrorAttempts}），\n错误原因：${err}`);
+        //     }
+
+        //     if (i === HTTPErrorAttempts) {
+        //         throw new Error("执行HTTP请求错误次数超过阈值，无法从设定的API当中拉取有效的数据，将直播流地址选择交给录播姬");
+        //     }
+
+        //     i++;
+        // }
     }
 
     // 直播间可选画质检测
@@ -223,4 +260,59 @@ const dev_class = class {
 
         return playUrl;
     }
+}
+
+
+recorderEvents = {
+    onTest(alert) {
+        let message = '此条为测试消息​(〜￣△￣)〜';
+
+        // 验证用户配置信息是否存在问题
+        let userConfCheckArr = [
+            {
+                'keys': 'debugInfoShow',
+                'type': 'boolean'
+            },
+            {
+                'keys': 'oldUrlSwitch',
+                'type': 'boolean'
+            },
+            {
+                'keys': 'optionalQnCheckSwitch',
+                'type': 'boolean'
+            },
+            {
+                'keys': 'FETCH_DOMAIN',
+                'type': 'string'
+            },
+            {
+                'keys': 'userCookie',
+                'type': 'string'
+            }
+            // 暂时无法实现
+            // {
+            //     'keys': 'HTTPErrorAttempts',
+            //     'type': 'number'
+            // }
+        ];
+
+        message = '正在检测...\n============用户配置部分============\n';
+        userConfCheckArr.forEach(x => {
+            message += x.keys + '：';
+            if (eval(`typeof ${x.keys} === x.type`)) {
+                message += 'OK\n';
+            } else {
+                message += `Error[没有配置 ${x.keys} 变量或者变量类型不是为 ${x.type}]\n`;
+            }
+        })
+
+        if (typeof sharedStorage !== 'undefined') {
+            message += `\n
+                ==========录播姬暂存数据部分==========\n
+                录播姬暂存了${sharedStorage.length}个房间的真原画直播流地址\n
+                ${sharedStorage.key(0)}`;
+        }
+
+        alert(message);
+    },
 }

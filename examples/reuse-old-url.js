@@ -11,9 +11,6 @@ const FETCH_DOMAIN = "https://api.live.bilibili.com"; // "http(s)://域名(:端�
 // 用户登录信息 Cookie（提示：请勿向不信任的反代端点传入 Cookie！）
 const userCookie = '';
 
-// 暂时无法实现
-// HTTP请求错误尝试次数，默认为“3”，调高了可能会导致录播姬不能及时录制
-// const HTTPErrorAttempts = 3;
 
 
 /* 源码部分 ============================= */
@@ -50,11 +47,6 @@ recorderEvents = {
                 'keys': 'userCookie',
                 'type': 'string'
             }
-            // 暂时无法实现
-            // {
-            //     'keys': 'HTTPErrorAttempts',
-            //     'type': 'number'
-            // }
         ];
 
         message = '正在检测...\n============用户配置部分============\n';
@@ -80,6 +72,14 @@ recorderEvents = {
         const roomid = data.roomid;
         let cache = null;
         let qnArr = data.qn.length > 0 ? data.qn : [10000];
+
+        if (oldUrlSwitch && typeof sharedStorage !== 'undefined') {
+            cache = oldUrl(roomid, qnArr);
+            if (cache) {
+                return cache;
+            }
+        }
+
         let playUrl = Fetch(roomid, 10000);
 
         // @ts-ignore
@@ -125,10 +125,21 @@ recorderEvents = {
             playUrl_Processed = urls[Math.floor(Math.random() * urls.length)];
         }
 
+
         // 检测当前运行的录播姬的执行脚本内部是否存在 sharedStorage 方法，如果没有就使用获取的直播流地址
         if (oldUrlSwitch) {
             if (typeof sharedStorage !== 'undefined') {
-                return oldUrl(roomid, qnArr, playUrl_Processed);
+                // 检查是否是二压原画和非原画画质，不是的话保存
+                if (!(/_bluray/.test(playUrl_Processed)) && qnArr[0] === 10000) {
+                    if (debugInfoShow) {
+                        console.log("当前获取的直播流地址为真原画，已保存等待复用");
+                    }
+                    sharedStorage.setItem('playurl:room:' + roomid, playUrl_Processed);
+                } else {
+                    if (debugInfoShow) {
+                        console.warn("提示：当前获取的直播流地址为二压原画（地址中带有“_bluray”字样）或非原画画质（qn不是10000），故不对此次获取的直播流地址进行保存操作");
+                    }
+                }
             } else {
                 if (debugInfoShow) {
                     console.warn("提示：此录播姬的执行脚本内部不存在 sharedStorage 方法，因此无法进行旧直播流地址复用操作，将使用获取到的直播流地址");
@@ -192,30 +203,6 @@ const Fetch = (roomid, qn) => {
             'Cookie': userCookie ? userCookie : ''
         }
     })
-
-    // 暂时无法实现
-    // for (let i = 0; i < HTTPErrorAttempts; i++) {
-    //     try {
-    //         return fetchSync(`${FETCH_DOMAIN}/room/v1/Room/playUrl?cid=${roomid}&qn=${qn}&platform=web`, {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Origin': 'https://live.bilibili.com',
-    //                 'Referer': 'https://live.bilibili.com/',
-    //                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
-    //                 'Cookie': userCookie ? userCookie : ''
-    //             }
-    //         })
-    //     }
-    //     catch (err) {
-    //         console.error(`HTTP请求错误，将尝试重新拉起请求（${i}/${HTTPErrorAttempts}），\n错误原因：${err}`);
-    //     }
-
-    //     if (i === HTTPErrorAttempts) {
-    //         throw new Error("执行HTTP请求错误次数超过阈值，无法从设定的API当中拉取有效的数据，将直播流地址选择交给录播姬");
-    //     }
-
-    //     i++;
-    // }
 }
 
 // 直播间可选画质检测
@@ -236,7 +223,7 @@ const optionalQnCheck = function (qnArr_Untreated, playUrl_Untreated) {
 }
 
 // 复用没有过期的真原画直播流地址
-const oldUrl = (roomid, qnArr, playUrl) => {
+const oldUrl = (roomid, qnArr) => {
     const oldUrl = sharedStorage.getItem('playurl:room:' + roomid),
         timeStamp = Date.now(),
         qn = qnArr[0];
@@ -277,26 +264,4 @@ const oldUrl = (roomid, qnArr, playUrl) => {
             console.log("未检测到当前录制房间存有旧的直播流地址，将使用新的直播流地址");
         }
     }
-
-    // 检查是否是二压原画和非原画画质，不是的话保存
-    if (!(/_bluray/.test(playUrl)) && qn === 10000) {
-        if (debugInfoShow) {
-            console.log("当前获取的直播流地址为真原画，已保存等待复用");
-        }
-
-        /*
-            [
-                {"playurl:room:23058": "url"},
-                {"playurl:room:23058": "url"}
-                ...
-            ] 
-        */
-        sharedStorage.setItem('playurl:room:' + roomid, playUrl);
-    } else {
-        if (debugInfoShow) {
-            console.warn("提示：当前获取的直播流地址为二压原画（地址中带有“_bluray”字样）或非原画画质（qn不是10000），故不对此次获取的直播流地址进行保存操作");
-        }
-    }
-
-    return playUrl;
 }
