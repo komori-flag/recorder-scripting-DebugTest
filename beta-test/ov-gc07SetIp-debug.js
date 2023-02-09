@@ -13,6 +13,8 @@ const userCookie = '';
 
 
 
+
+
 /* 源码部分 ============================= */
 
 /* 
@@ -49,7 +51,7 @@ recorderEvents = {
             }
         ];
 
-        message = '正在检测...\n============用户配置部分============\n';
+        message = '正在检测...\n============用户配置部分============\n一：类型检测\n';
         userConfCheckArr.forEach(x => {
             message += x.keys + '：';
             if (eval(`typeof ${x.keys} === x.type`)) {
@@ -111,7 +113,7 @@ recorderEvents = {
 
         if (!(urls?.length)) return null;
 
-        const matchGotcha = /^https?\:\/\/[^\/]*ov-gotcha05\.bilivideo\.com\/.+$/;
+        const matchGotcha = /^https?\:\/\/[^\/]*ov-gotcha07\.bilivideo\.com\/.+$/;
 
         const filtered = urls.filter(x => matchGotcha.test(x));
 
@@ -145,6 +147,24 @@ recorderEvents = {
         }
 
         return playUrl_Processed;
+    },
+    onTransformStreamUrl(originalUrl) {
+        const matchGotcha = /^https?\:\/\/[^\/]*ov-gotcha07\.bilivideo\.com\/.+$/;
+        if (matchGotcha.test(originalUrl)) {
+            /*
+                大陆内ip可选（建议选择v4，v6不稳定）
+                v4:156.59.188.241 - 247（日本）
+                    156.59.237.130 - 135（巴基斯坦）
+                v6:2602:ffe4:8:1000::2 - 7（香港）
+                    2602:ffe4:806:1::2 - 7（日本）
+                    2602:ffe4:404::2 / 5 / 7（新加坡）
+            */
+            return {
+                'url': originalUrl,
+                'ip': '156.59.188.244'
+            }
+        }
+        return originalUrl;
     }
 }
 

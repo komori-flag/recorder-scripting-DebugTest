@@ -1,6 +1,6 @@
 /*
     勇士，你来错地方了，这里不是你该来的地方，这里是代码的试验田("▔□▔)/
-    这里的东西在录播姬里暂时无法使用，使用就会报错
+    这里的东西在录播姬里无法使用，使用即报错
 */
 
 /* 
@@ -14,6 +14,8 @@
 // const HTTPErrorAttempts = 3;
 
 const UserCookie = '';
+// 检测直播间可录画质所用的API（可选），如果值为空（''）则会使用“获取直播流地址的API”的地址
+const optionalQnCheck_DOMAIN = 'https://api.live.bilibili.com';
 
 const userConfig = {
     // debug 信息显示开关（boolean）
@@ -93,14 +95,7 @@ const dev_class = class {
                 num++;
             })
         })();
-
-
-        const debugInfoShow = false,
-            oldUrlSwitch = false,
-            optionalQnCheckSwitch = true,
-            FETCH_DOMAIN = "https://api.live.bilibili.com",
-            UserCookie = '';
-
+        
         // return {
         //     // urlFetch: this.urlFetch,
         //     // oldUrlReuse: this.oldUrlReuse

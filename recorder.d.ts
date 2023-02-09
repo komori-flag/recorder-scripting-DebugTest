@@ -94,7 +94,7 @@ interface URLSearchParams {
 
 declare var URLSearchParams: {
     prototype: URLSearchParams;
-    new(init?: Record<string, string> | string ): URLSearchParams;
+    new(init?: Record<string, string> | string): URLSearchParams;
 };
 
 declare var dns: DNS;

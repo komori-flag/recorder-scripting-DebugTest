@@ -2,7 +2,7 @@
     "compilerOptions": {
         "checkJs": true,
         "module": "none",
-        "target": "es2020",
+        "target": "ES2022",
         "lib": [
             "ES2015",
             "ES2016",
@@ -10,6 +10,7 @@
         ]
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "beta-test"
     ]
 }
