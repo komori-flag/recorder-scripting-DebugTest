@@ -4,8 +4,13 @@
 
 - [recorder.d.ts](./recorder.d.ts): 类型定义
 - [examples/example-1.js](./examples/example-1.js): 一个脚本例子
+- [examples/reuse-old-url.js](./examples/reuse-old-url.js)：直播流地址复用
 
-- [examples/reuse-old-url.js](./examples/reuse-old-url.js)：直播流地址复用（主要在写的）
+测试用
+- [beta-test/fetchSyncErrTest.js](./beta-test/fetchSyncErrTest.js)：测试fetchSync的Api是否存在更多问题
+- [beta-test/ov-gc07SetIp-debug.js](./beta-test/ov-gc07SetIp-debug.js)：测试直播CDN（d1--ov-gotcha07.bilivideo.com）指定IP录制
+- [beta-test/scriptingDebug-test.js](./beta-test/scriptingDebug-test.js)：代码试验田
+
 
 想要实现和完善的功能有
 > debug提示：待完善
