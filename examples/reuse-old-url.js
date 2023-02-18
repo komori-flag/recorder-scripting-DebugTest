@@ -9,7 +9,7 @@ const optionalQnCheckSwitch = false; // true：开启，false：关闭
 // 获取直播流地址的API
 const FETCH_DOMAIN = "https://api.live.bilibili.com"; // "http(s)://域名(:端口号)"
 // 用户登录信息 Cookie（提示：请勿向不信任的反代端点传入 Cookie！）
-const userCookie = '';
+const userCookie = "";
 
 
 
