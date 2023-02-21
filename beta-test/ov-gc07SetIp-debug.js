@@ -88,7 +88,6 @@ recorderEvents = {
         if (optionalQnCheckSwitch) {
             cache = optionalQnCheck(qnArr, playUrl);
             if (cache) {
-                console.log(cache.length);
                 if (cache.length < 1) {
                     return 'http://0.0.0.0';
                 }

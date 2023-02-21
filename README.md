@@ -4,7 +4,7 @@
 
 - [recorder.d.ts](./recorder.d.ts): 类型定义
 - [examples/example-1.js](./examples/example-1.js): 一个脚本例子
-- [examples/reuse-old-url.js](./examples/reuse-old-url.js)：直播流地址复用
+- [examples/reuse-old-ov05url.js](./examples/reuse-old-ov05url.js)：海外ov05直播流地址复用
 
 测试用
 - [beta-test/fetchSyncErrTest.js](./beta-test/fetchSyncErrTest.js)：测试fetchSync的Api是否存在更多问题
