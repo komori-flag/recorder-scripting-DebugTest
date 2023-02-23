@@ -1,7 +1,7 @@
 /* 用户配置信息 ============================= */
 
 // debug 信息显示开关
-const debugInfoShow = true; // true：开启，false：关闭
+const debugInfoShow = false; // true：开启，false：关闭
 // 旧直播流地址复用开关。如果关闭，则获取到的直播流地址将直接输出而不做暂存
 const oldUrlSwitch = true; // true：开启，false：关闭
 // 传入直播间可录画质检测开关。如果关闭，则锁定为“原画”画质进行录制
