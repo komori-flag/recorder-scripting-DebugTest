@@ -168,7 +168,7 @@ const qnConvert = qn => {
 }
 
 // 时间戳转换
-const timeStampConvert = timeStamp => {
+const timeStampConvert = (timeStamp) => {
     const date = new Date(timeStamp),
         Y = date.getFullYear() + '-',
         M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-',
@@ -223,7 +223,7 @@ const oldUrl = (roomid, playUrl_Untreated, userQnArr, getQnArr, qnArr_def, qnArr
 
     if (debugInfoShow) {
         console.log(`用户选定的录制画质：[${userQnArr.toString()}]，当前直播间获取到的画质：[${getQnArr.toString()}]，最终选定录制画质：${qn}`);
-        console.log(`当前获取的房间ID：${roomid}，选定录制的画质：${qn}(${qnConvert(qn)})，\n旧的直播流地址：${oldUrl ? "存在" : "无"}`);
+        console.log(`当前获取的房间ID：${roomid}，选定录制的画质：${qn}(${qnConvert(qn)})，\n旧的直播流地址：${oldUrl ? oldUrl : "无"}`);
 
         if (qn !== 10000) {
             console.warn("提示：当前获取的画质是非原画（qn不等于10000），故不对此次直播流地址进行复用操作和保存");
@@ -277,4 +277,21 @@ const oldUrl = (roomid, playUrl_Untreated, userQnArr, getQnArr, qnArr_def, qnArr
     }
 
     return playUrl_Processed;
+}
+
+
+const oldUrlMapData = class {
+    constructor(data) {
+        let url = data.url,
+            timeStamp = data.timeStamp;
+
+
+    }
+    pushUrl(data) {
+        let getOldUrl = sharedStorage.getItem(`playurl:room:${data.roomid}`)
+    }
+    removeUrl() {
+
+    }
+
 }
