@@ -3,9 +3,9 @@
 // debug 信息显示开关
 const debugInfoShow = false; // true：开启，false：关闭
 // 旧直播流地址复用开关。如果关闭，则获取到的直播流地址将直接输出而不做暂存
-const oldUrlSwitch = true; // true：开启，false：关闭
+const oldUrlSwitch = false; // true：开启，false：关闭
 // 传入直播间可录画质检测开关。如果关闭，则锁定为“原画”画质进行录制
-const optionalQnCheckSwitch = true; // true：开启，false：关闭
+const optionalQnCheckSwitch = false; // true：开启，false：关闭
 // 获取直播流地址的API
 const FETCH_DOMAIN = "https://api.live.bilibili.com"; // "http(s)://域名(:端口号)"
 // 用户登录信息 Cookie（提示：请勿向不信任的反代端点传入 Cookie！）
@@ -218,7 +218,7 @@ const optionalQnCheck = (userQnArr, playUrl_Untreated) => {
 const oldUrl = (roomid, playUrl_Untreated, userQnArr, getQnArr, qnArr_def, qnArr) => {
     const oldUrl = sharedStorage.getItem('playurl:room:' + roomid),
         timeStamp = Date.now(),
-        qn = userQnArr[0];
+        qn = qnArr[0];
     let playUrl_Processed = null;
 
     if (debugInfoShow) {

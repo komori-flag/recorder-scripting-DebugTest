@@ -21,6 +21,9 @@ const userCookie = "";
     by：Komori_晓椮
 */
 
+const qnArr_def = [10000];
+
+
 recorderEvents = {
     onTest(alert) {
         let message = '此条为测试消息​(〜￣△￣)〜';
@@ -67,7 +70,6 @@ recorderEvents = {
     },
     onFetchStreamUrl(data) {
         const roomid = data.roomid,
-            qnArr_def = [10000],
             userQnArr = data.qn;
 
 
@@ -151,20 +153,21 @@ const qnConvert = qn => {
         [250, "超清"],
         [150, "高清"],
         [80, "流畅"]
-    ]);
+    ]),
+        unknown = "未知";
     let item = null;
 
     if (qn && typeof qn === 'number') {
         item = myMap.get(qn);
 
         if (!item) {
-            return "未知";
+            return unknown;
         }
 
         return item;
     }
 
-    return "未知";
+    return unknown;
 }
 
 // 时间戳转换
