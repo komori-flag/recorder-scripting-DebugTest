@@ -311,3 +311,25 @@ recorderEvents = {
         alert(message);
     },
 }
+
+for (let i = 1; i < 3; i++) {
+    try {
+        console.log(fetchSync(`https://biliapi-ov.komoriwork.com/room/v/Room/playUrl?cid=3&qn=10000&platform=web`, {
+            method: 'GET',
+            headers: {
+                'Origin': 'https://live.bilibili.com',
+                'Referer': 'https://live.bilibili.com/',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
+            }
+        })
+        )
+    } catch (err) {
+        console.error(`HTTP请求错误，将尝试重新拉起请求（${i}/${3}），\n错误原因：${err}`);
+    }
+
+    if (i === 3) {
+        throw new Error("执行HTTP请求错误次数超过阈值，无法从设定的API当中拉取有效的数据，将直播流地址选择交给录播姬");
+    }
+
+    i++;
+}
