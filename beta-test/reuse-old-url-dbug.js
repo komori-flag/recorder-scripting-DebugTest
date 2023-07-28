@@ -47,7 +47,7 @@ const switch_stickers_danmaku = true; // true：开启屏蔽，false：关闭屏
 // API 请求次数 （默认值：1 [仅请求一次，如果出错了就交还给录播姬进行请求]）
 // 此项如需配置大于 1 的数值，需要您安装的录播姬版本位于 2.6.2 及以上
 const HTTPAttempts = 1; // 正整数
-// 单个旧直播流最大重连次数，调高了可能会导致录播姬不能及时录制
+// 单个旧直播流最大重连次数，调高了可能会导致录播姬不能及时录制对目前三大功能（API 请求数据、画质选择和数据处理）的代码进行了重构
 const oldUrl_singleMaximum = 10; // 正整数
 // 单个旧直播流最大重连次数计次器开启等待时间。
 const oldUrl_singleMaximum_delayTime = 15; // 正整数，单位：秒（s）
@@ -57,7 +57,7 @@ const matchGotcha = [/^https?\:\/\/[^\/]*ov-gotcha07\.bilivideo\.com/];
 const User_Agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36";
 // 指定直播流连接的 IP 地址，如果设置了此选项则优先使用设定的 IP 地址连接直播流地址
 // IPV4 / IPV6 地址，可填写多个地址，随机选择
-const playUrl_SetIp = ["156.59.188.242"]; // 填写方式：["ip1", "ip2"]
+const playUrl_SetIp = []; // 填写方式：["ip1", "ip2"]
 // HLS 录制开关。如果关闭，则仅录制 FLV
 // *这个开关是为了未来录播姬支持 HLS 流录制所做的准备，如果您所安装的录播姬不支持 HLS 流录制的话请勿开启，此脚本不会检测您所安装的录播姬是否支持 HLS 录制。
 // ps:需要注意的是，如果开启了这个开关，则“获取直播流的 API 选择”配置选项将无效，如有需要请先将“HLS录制开关”设置为关闭。
